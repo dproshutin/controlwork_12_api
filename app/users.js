@@ -37,7 +37,7 @@ const createRouter = () => {
         try {
             res.send(await user.save());
         } catch(e) {
-            res.sendStatus(400);
+            return res.status(400).send(e);
         }
     });
 

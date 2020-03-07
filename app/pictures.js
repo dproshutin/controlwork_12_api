@@ -74,7 +74,7 @@ const createRouter = () => {
             return res.status(400).send(error)
         }
     });
-    
+
     return router;
 };
 
