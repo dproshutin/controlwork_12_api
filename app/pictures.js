@@ -42,6 +42,22 @@ const createRouter = () => {
         }).catch(() => res.sendStatus(500));
     });
 
+    router.post("/", [auth, upload.single("image")], async (req, res) => {
+        const pictureData = {
+            title: req.body.title,
+            image: req.file.filename,
+            createdBy: req.user._id
+        };
+
+        const picture = new Picture(pictureData);
+        try {
+            res.send(await picture.save());
+        } catch {
+            res.sendStatus(400);
+        }
+    });
+
+
     return router;
 };
 
