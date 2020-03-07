@@ -1,5 +1,23 @@
 const express = require("express");
 const router = express.Router();
+const nanoid = require("nanoid");
+const multer = require("multer");
+const path = require("path");
+const config = require("../config");
+const Picture = require("../models/Picture");
+const auth = require("../middleware/auth");
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, config.uploadsPath);
+    },
+    filename: (req, file, cb) => {
+        console.log(file);
+        cb(null, nanoid() + path.extname(file.originalname))
+    }
+});
+
+const upload = multer({storage: storage});
 
 const createRouter = () => {
     router.get("/", async (req, res) => {
