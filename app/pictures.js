@@ -57,7 +57,24 @@ const createRouter = () => {
         }
     });
 
+    router.delete('/', auth, async (req, res) => {
+        try {
+            const id = req.query.id;
+            const picture = await Picture.findById(id);
 
+            if (picture) {
+                await picture.remove();
+                const pictures = await Picture.find({createdBy: req.user._id});
+                return res.status(200).send(pictures);
+            } else {
+                return res.status(400).send('Not found!');
+            }
+
+        } catch (error) {
+            return res.status(400).send(error)
+        }
+    });
+    
     return router;
 };
 
